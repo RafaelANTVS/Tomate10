@@ -4,18 +4,26 @@
 
 R Novocliente(dados usuario[], int *pos) {
     if (*pos >= TOTAL)
-        printf("Agenda lotada!");
+        printf("Clientes maximo atingido!");
 
-    printf("Entre com o nome do contato: ");
-    scanf("%99s", ContatoMax[*pos].nome);
+    printf("Entre com o nome da conta: ");
+    scanf("%99s", usuario[*pos].nome);
     clearBuffer();
 
-    printf("Entre com o email: ");
-    scanf("%99s", contatos[*pos].email);
+    printf("Entre com o CPF: ");
+    scanf("%99d", usuario[*pos].CPF);
     clearBuffer();
 
-    printf("Entre com o telefone: ");
-    scanf("%19s", contatos[*pos].telefone);
+    printf("Entre com o tipo de conta (comum ou plus?): ");
+    scanf("%19s", usuario[*pos].tipo);
+    clearBuffer();
+
+    printf("Entre com o valor inicial da conta: ");
+    scanf("%d", usuario[*pos].valor);
+    clearBuffer();
+
+    printf("Entre com a senha de sua conta: ");
+    scanf("%s", usuario[*pos].senha);
     clearBuffer();
 
     (*pos)++;
