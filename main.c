@@ -16,7 +16,7 @@ int main (){
         printf("4 - Débito\n");
         printf("5 - Depósito\n");
         printf("6 - Extrato\n");
-        printf("7 - ransferência Entre Contas\n");
+        printf("7 - Transferência Entre Contas\n");
         printf("0 - Sair\n");
         printf("Escolha uma opão: ");
         scanf("%d", &opcao);
@@ -29,8 +29,8 @@ int main (){
             case 2: {
                 char cliente_a_remover[11];
                 printf("Digite o número do CPF do cliente que deseja remover: ");
-                scanf("%s", cliente_a_remover);
-                Apagacliente(usuario, cliente_a_remover, &pos);
+                scanf("%19s", cliente_a_remover);
+                Apagarcliente(usuario, cliente_a_remover, &pos);
                 break;
 }
             case 3:
