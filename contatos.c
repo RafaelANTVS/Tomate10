@@ -4,31 +4,71 @@
 
 R Novocliente(dados usuario[], int *pos) {
     if (*pos >= TOTAL)
-        printf("Clientes maximo atingido!");
+        printf("Agenda lotada!");
 
-    printf("Entre com o nome da conta: ");
-    scanf("%99s", usuario[*pos].nome);
+    printf("Entre com o nome do usuario: ");
+    scanf("%10s", usuario[*pos].nome);
     clearBuffer();
 
-    printf("Entre com o CPF: ");
-    scanf("%99d", usuario[*pos].CPF);
+
+    printf("Entre com um número de CPF: ");
+    scanf("%11s", usuario[*pos].CPF);
     clearBuffer();
 
-    printf("Entre com o tipo de conta (comum ou plus?): ");
-    scanf("%19s", usuario[*pos].tipo);
+    printf("Entre com o tipo de conta : ");
+    scanf("%2s", usuario[*pos].tipo);
     clearBuffer();
 
-    printf("Entre com o valor inicial da conta: ");
-    scanf("%d", usuario[*pos].valor);
+    printf("Entre com o valor inicial: ");
+    scanf("%50000s", usuario[*pos].valor);
     clearBuffer();
 
-    printf("Entre com a senha de sua conta: ");
-    scanf("%s", usuario[*pos].senha);
+    printf("Entre com a senha da conta: ");
+    scanf("%30s", usuario[*pos].senha);
     clearBuffer();
-
     (*pos)++;
 
     return OK;
+}
+
+R Apagarcliente(dados usuario[], char *CPF, int *pos) {
+    int i;
+    int encontrado = 0;
+
+    if (*pos <= 0) {
+        return SemContato;
+    }
+
+    for (i = 0; i < *pos; i++) {;
+        if (strcmp(usuario[i].CPF, CPF) == 0) {
+            encontrado = 1;
+
+            for (int j = i; j < *pos - 1; j++) {
+                usuario[j].nome, usuario[j + 1].nome;
+                strcpy(usuario[j].CPF, usuario[j + 1].CPF);
+                usuario[j].tipo, usuario[j + 1].tipo;
+                usuario[j].valor, usuario[j + 1].valor;
+                strcpy(usuario[j].senha, usuario[j + 1].senha);
+
+            }
+            (*pos)--;
+            printf("conta removida com sucesso!\n");
+            break;
+        }
+    }
+    for(int i=0; i<*pos; i++){
+        printf("Pos: %c\t", i+1);
+        printf("Nome: %s\t", usuario[i].nome);
+        printf("CPF: %s\t", usuario[i].CPF);
+        printf("tipo: %s\n", usuario[i].tipo);
+        printf("valor: %s\n", usuario[i].valor);
+    if (!encontrado) {
+        printf("Contato com o número do CPF %s não encontrado.\n", CPF);
+        return NaoEcontrado;
+    }
+
+    return OK;
+    }
 }
 
 R Listarclientes(dados usuario[], int *pos) {
@@ -36,61 +76,28 @@ R Listarclientes(dados usuario[], int *pos) {
         printf("Sem contatos para exibir!");
 
     for (int i = 0; i < *pos; i++) {
-        printDados(contatos[i], i + 1);
+        printDados(usuario[i], i + 1);
     }
 
     return OK;
 }
 
-R Apagacliente(dados usuario[], int *pos) {
-    int i;
-    int encontrado = 0;
-
-    if (*pos <= 0) {
-        return SEM_CONTATOS;
-    }
-
-    for (i = 0; i < *pos; i++) {
-        if (strcmp(contatos[i].telefone, telefone) == 0) {
-            encontrado = 1;
-
-            for (int j = i; j < *pos - 1; j++) {
-                strcpy(contatos[j].nome, contatos[j + 1].nome);
-                strcpy(contatos[j].email, contatos[j + 1].email);
-                strcpy(contatos[j].telefone, contatos[j + 1].telefone);
-            }
-            (*pos)--;
-            printf("Contato removido com sucesso!\n");
-            break;
-        }
-    }
-    for(int i=0; i<*pos; i++){
-        printf("Pos: %c\t", i+1);
-        printf("Nome: %s\t", contatos[i].nome);
-        printf("email: %s\t", contatos[i].email);
-        printf("telefone: %s\n", contatos[i].telefone);
-    if (!encontrado) {
-        printf("Contato com o número de telefone %s não encontrado.\n", telefone);
-        return NAO_ENCONTRADO;
-    }
-
-    return OK;
-    }
+R Debito(dados usuario[], int *pos){
+    printf("Debito\n");
 }
 
-R Transferencia(dados usuario[], int *pos) {
-    printf("\m");
+R Deposito(dados usuario[], int *pos){
+        printf("Deposito\n");
 }
 
-
-R Extrato(dados usuario[], int *pos) {
-    FILE *f = fopen("agenda.bin", "rb");
+R Extrato(dados usuario[], int *pos, int tamanho) {
+    FILE *f = fopen("extrato.bin", "rb");
     if (f == NULL) {
-        printf("Erro ao abrir o arquivo agenda.bin\n");
+        printf("Erro ao abrir o arquivo de extrato.bin\n");
         return ABRIR;
     }
     int i;
-    for (i = 0; i < tamanho && fread(&contatos[i], sizeof(Agenda), 1, f) == 1; i++);
+    for (i = 0; i < tamanho && fread(&usuario[i], sizeof(dados), 1, f) == 1; i++);
     *pos = i;
     if (fclose(f) != 0) {
         printf("Erro ao fechar o arquivo agenda.bin\n");
@@ -99,10 +106,15 @@ R Extrato(dados usuario[], int *pos) {
     printf("Arquivo aberto com sucesso!");
     return OK;
 }
-void printAgenda(Agenda contatos, int pos) {
+
+R Transferencia(dados usuario[], int *pos){
+    printf("Tranferencia\n");
+}
+void printDados(dados contatos, int pos) {
     printf("\nPosicao: %d\t", pos);
-    printf("Nome: %s\tEmail: %s\t", contatos.nome, contatos.email);
-    printf("Telefone: %s\n", contatos.telefone);
+    printf("Nome: %s\tCPF: %s\t", contatos.nome, contatos.CPF);
+    printf("tipo de conta: %s\n", contatos.tipo);
+    printf("valor inicial: %s\n", contatos.valor);
 }
 
 
