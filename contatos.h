@@ -4,11 +4,11 @@ typedef struct {
     char nome[20];
     char CPF[11];
     char tipo[2];
-    char valor[5000];
-    char senha[30];
+    int valor;
+    char senha;
 }dados;
 
-typedef enum {OK,ContatoMax,SemContato,NaoEcontrado, FECHAR, ABRIR} R;
+typedef enum {OK,ContatoMax,SemContato,NaoEcontrado, FECHAR, ABRIR, ERROR} R;
 
 
 R Novocliente(dados usuario[], int *pos);
