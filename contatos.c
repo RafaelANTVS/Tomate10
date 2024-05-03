@@ -15,17 +15,19 @@ R Novocliente(dados usuario[], int *pos) {
     scanf("%11s", usuario[*pos].CPF);
     clearBuffer();
 
-    printf("Entre com o tipo de conta : ");
-    scanf("%2s", usuario[*pos].tipo);
+    printf("Entre com o tipo de conta, 1 - comum, 2 - plus: ");
+    scanf("%s", usuario[*pos].tipo);
     clearBuffer();
 
     printf("Entre com o valor inicial: ");
-    scanf("%50000s", usuario[*pos].valor);
+    scanf("%d", &usuario[*pos].valor);
     clearBuffer();
 
     printf("Entre com a senha da conta: ");
     scanf("%30s", usuario[*pos].senha);
     clearBuffer();
+
+
     (*pos)++;
 
     return OK;
@@ -61,7 +63,7 @@ R Apagarcliente(dados usuario[], char *CPF, int *pos) {
         printf("Nome: %s\t", usuario[i].nome);
         printf("CPF: %s\t", usuario[i].CPF);
         printf("tipo: %s\n", usuario[i].tipo);
-        printf("valor: %s\n", usuario[i].valor);
+        printf("valor: %d\n", usuario[i].valor);
     if (!encontrado) {
         printf("Contato com o número do CPF %s não encontrado.\n", CPF);
         return NaoEcontrado;
@@ -73,7 +75,7 @@ R Apagarcliente(dados usuario[], char *CPF, int *pos) {
 
 R Listarclientes(dados usuario[], int *pos) {
     if (*pos == 0)
-        printf("Sem contatos para exibir!");
+        printf("Sem contas para exibir!");
 
     for (int i = 0; i < *pos; i++) {
         printDados(usuario[i], i + 1);
@@ -113,8 +115,8 @@ R Transferencia(dados usuario[], int *pos){
 void printDados(dados contatos, int pos) {
     printf("\nPosicao: %d\t", pos);
     printf("Nome: %s\tCPF: %s\t", contatos.nome, contatos.CPF);
-    printf("tipo de conta: %s\n", contatos.tipo);
-    printf("valor inicial: %s\n", contatos.valor);
+    printf("tipo de conta: %s\t", contatos.tipo);
+    printf("dinheiro depositado: %d\n", contatos.valor);
 }
 
 
