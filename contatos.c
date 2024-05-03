@@ -46,11 +46,11 @@ R Apagarcliente(dados usuario[], char *CPF, int *pos) {
             encontrado = 1;
 
             for (int j = i; j < *pos - 1; j++) {
-                usuario[j].nome, usuario[j + 1].nome;
+                strcpy(usuario[j].nome, usuario[j + 1].nome);
                 strcpy(usuario[j].CPF, usuario[j + 1].CPF);
-                usuario[j].tipo, usuario[j + 1].tipo;
+                strcpy(usuario[j].tipo, usuario[j + 1].tipo);
                 usuario[j].valor, usuario[j + 1].valor;
-                strcpy(usuario[j].senha, usuario[j + 1].senha);
+                usuario[j].senha, usuario[j + 1].senha;
 
             }
             (*pos)--;
