@@ -3,9 +3,9 @@
 typedef struct {
     char nome[20];
     char CPF[11];
-    char tipo[2];
+    int tipo;
     int valor;
-    char senha;
+    int senha;
 }dados;
 
 typedef enum {OK,ContatoMax,SemContato,NaoEcontrado, FECHAR, ABRIR, ERROR} R;
