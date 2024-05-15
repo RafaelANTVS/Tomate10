@@ -31,6 +31,7 @@ R Novocliente(dados usuario[], int *pos) {
     (*pos)++;
 
     return OK;
+
 }
 
 R Apagarcliente(dados usuario[], char *CPF, int *pos) {
@@ -115,7 +116,38 @@ R Debito(dados usuario[], int *pos){
             printf("CPF não econtrado\n");
         }
     }
+
 }
+// FILE *f = fopen("agenda.bin", "wb");
+//     if (f == NULL)
+//         return ABRIR;
+//     for (int i = 0; i < *pos; i++) {
+//         if (fwrite(&usuario[i], sizeof(Agenda), 1, f) != 1) {
+//             fclose(f);
+//             return ESCREVER;
+//         }
+//     }
+//     if (fwrite(pos, sizeof(int), 1, f) != 1) {
+//         fclose(f);
+
+//     int qtd = fwrite(contatos, sizeof(Agenda), *pos, f);
+//     if (qtd != *pos)
+//         return ESCREVER;
+
+//     if (fwrite(pos, sizeof(int), 1, f) != 1)
+//         return ESCREVER;
+//     }
+//     if (fclose(f) != 0)
+//         return FECHAR;
+//         printf("Arquivo salvo com sucesso!");
+//     return OK;
+// }
+
+
+
+
+
+
 R Deposito(dados usuario[], int *pos){
         printf("Deposito\n");
 }
