@@ -5,10 +5,10 @@ typedef struct {
     char CPF[11];
     char tipo[2];
     int valor;
-    char senha;
+    char senha[31];
 }dados;
 
-typedef enum {OK,ContatoMax,SemContato,NaoEcontrado, FECHAR, ABRIR, ERROR} R;
+typedef enum {OK,ContatoMax,SemContato,NaoEcontrado, FECHAR, ABRIR, ERROR, SaldoInsuficiente} R;
 
 
 R Novocliente(dados usuario[], int *pos);
@@ -21,3 +21,4 @@ R Transferencia(dados usuario[], int *pos);
 
 void printDados(dados usuario, int pos);
 void clearBuffer();
+
