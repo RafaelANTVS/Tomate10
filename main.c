@@ -18,7 +18,7 @@ int main (){
         printf("6 - Extrato\n");
         printf("7 - Transferência Entre Contas\n");
         printf("0 - Sair\n");
-        printf("Escolha uma opão: ");
+        printf("Escolha uma opção: ");
         scanf("%d", &opcao);
         printf("Opção escolhida: %d\n", opcao);
 

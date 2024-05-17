@@ -3,20 +3,21 @@
 #include "contatos.h"
 
 R Novocliente(dados usuario[], int *pos) {
-    if (*pos >= TOTAL)
-        printf("Agenda lotada!");
+    if (*pos >= TOTAL) {
+        printf("Agenda lotada!\n");
+        return SemContato;
+    }
 
     printf("Entre com o nome do usuario: ");
     scanf("%10s", usuario[*pos].nome);
     clearBuffer();
-
 
     printf("Entre com um número de CPF: ");
     scanf("%11s", usuario[*pos].CPF);
     clearBuffer();
 
     printf("Entre com o tipo de conta, 1 - comum, 2 - plus: ");
-    scanf("%s", usuario[*pos].tipo);
+    scanf("%1s", usuario[*pos].tipo); // Tipo de conta deve ter um único caractere mais o terminador nulo
     clearBuffer();
 
     printf("Entre com o valor inicial: ");
@@ -26,7 +27,6 @@ R Novocliente(dados usuario[], int *pos) {
     printf("Entre com a senha da conta: ");
     scanf("%30s", usuario[*pos].senha);
     clearBuffer();
-
 
     (*pos)++;
 
@@ -41,7 +41,7 @@ R Apagarcliente(dados usuario[], char *CPF, int *pos) {
         return SemContato;
     }
 
-    for (i = 0; i < *pos; i++) {;
+    for (i = 0; i < *pos; i++) {
         if (strcmp(usuario[i].CPF, CPF) == 0) {
             encontrado = 1;
 
@@ -49,33 +49,36 @@ R Apagarcliente(dados usuario[], char *CPF, int *pos) {
                 strcpy(usuario[j].nome, usuario[j + 1].nome);
                 strcpy(usuario[j].CPF, usuario[j + 1].CPF);
                 strcpy(usuario[j].tipo, usuario[j + 1].tipo);
-                usuario[j].valor, usuario[j + 1].valor;
-                usuario[j].senha, usuario[j + 1].senha;
-
+                usuario[j].valor = usuario[j + 1].valor;
+                strcpy(usuario[j].senha, usuario[j + 1].senha);
             }
             (*pos)--;
-            printf("conta removida com sucesso!\n");
+            printf("Conta removida com sucesso!\n");
             break;
         }
     }
-    for(int i=0; i<*pos; i++){
-        printf("Pos: %c\t", i+1);
-        printf("Nome: %s\t", usuario[i].nome);
-        printf("CPF: %s\t", usuario[i].CPF);
-        printf("tipo: %s\n", usuario[i].tipo);
-        printf("valor: %d\n", usuario[i].valor);
+
     if (!encontrado) {
         printf("Contato com o número do CPF %s não encontrado.\n", CPF);
         return NaoEcontrado;
     }
 
-    return OK;
+    for (int i = 0; i < *pos; i++) {
+        printf("Pos: %d\t", i + 1);
+        printf("Nome: %s\t", usuario[i].nome);
+        printf("CPF: %s\t", usuario[i].CPF);
+        printf("tipo: %s\n", usuario[i].tipo);
+        printf("valor: %d\n", usuario[i].valor);
     }
+
+    return OK;
 }
 
 R Listarclientes(dados usuario[], int *pos) {
-    if (*pos == 0)
-        printf("Sem contas para exibir!");
+    if (*pos == 0) {
+        printf("Sem contas para exibir!\n");
+        return SemContato;
+    }
 
     for (int i = 0; i < *pos; i++) {
         printDados(usuario[i], i + 1);
@@ -85,11 +88,55 @@ R Listarclientes(dados usuario[], int *pos) {
 }
 
 R Debito(dados usuario[], int *pos){
-    printf("Debito\n");
 }
 
-R Deposito(dados usuario[], int *pos){
-        printf("Deposito\n");
+R Deposito(dados usuario[], int *pos) {
+    char CPF[12]; // Variável para armazenar o CPF da conta
+    char senha[31]; // Variável para armazenar a senha da conta
+    int valor; // Variável para armazenar o valor a ser depositado
+    int encontrou_conta = 0;
+
+    // Solicita o CPF da conta para autenticação
+    printf("Entre com o seu CPF: ");
+    scanf("%11s", CPF);
+    clearBuffer();
+
+    // Solicita a senha da conta para autenticação
+    printf("Entre com a sua senha: ");
+    scanf("%30s", senha);
+    clearBuffer();
+
+    // Verifica se a conta e a senha correspondem a alguma conta existente
+    int i;
+    for (i = 0; i < *pos; i++) {
+        printf("Debug: Comparando CPF %s com %s\n", usuario[i].CPF, CPF);
+        printf("Debug: Comparando senha %s com %s\n", usuario[i].senha, senha);
+
+        if (strcmp(usuario[i].CPF, CPF) == 0 && strcmp(usuario[i].senha, senha) == 0) {
+            encontrou_conta = 1;
+            break; // Sai do loop se encontrar a conta e senha correspondentes
+        }
+    }
+
+    // Se a conta e senha forem válidas, continua com o processo de depósito
+    if (encontrou_conta == 1) {
+        // Solicita o valor a ser depositado
+        printf("Entre com o valor a ser depositado: ");
+        scanf("%d", &valor);
+        clearBuffer();
+
+        // Adiciona o valor ao saldo da conta
+        usuario[i].valor += valor;
+
+        printf("Depósito realizado com sucesso!\n");
+        printf("Novo saldo para a conta de %s: %d\n", usuario[i].nome, usuario[i].valor);
+
+        return OK; // Retorna OK indicando sucesso no depósito
+    } else {
+        // Se o CPF ou a senha fornecidos para a conta estiverem incorretos, exibe uma mensagem de erro
+        printf("CPF ou senha incorretos!\n");
+        return NaoEcontrado; // Retorna um código de erro indicando que a conta não foi encontrada
+    }
 }
 
 R Extrato(dados usuario[], int *pos, int tamanho) {
