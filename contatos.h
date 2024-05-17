@@ -6,9 +6,10 @@ typedef struct {
     int tipo;
     int valor;
     int senha;
+
 }dados;
 
-typedef enum {OK,ContatoMax,SemContato,NaoEcontrado, FECHAR, ABRIR, ERROR} R;
+typedef enum {OK,ContatoMax,SemContato,NaoEcontrado, FECHAR, ABRIR, ERROR, SaldoInsuficiente} R;
 
 
 R Novocliente(dados usuario[], int *pos);
@@ -21,3 +22,4 @@ R Transferencia(dados usuario[], int *pos);
 
 void printDados(dados usuario, int pos);
 void clearBuffer();
+
