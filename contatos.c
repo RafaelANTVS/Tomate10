@@ -88,6 +88,49 @@ R Listarclientes(dados usuario[], int *pos) {
 }
 
 R Debito(dados usuario[], int *pos){
+    char cpf[11];
+    int i;
+    int valor;
+    int comum = -1000;
+    int plus = -5000;
+    int resultado;
+    if (*pos <= 0) {
+        printf("Não existem contatos na memoria\n");
+    }
+
+    for (i = 0; i < *pos; i++) {
+        printf("Digite seu CPF: \n");
+        scanf("%s", cpf);
+        if (strcmp(usuario[i].CPF, cpf) == 0) {
+            if (usuario[i].tipo == 1 && usuario[i].valor > comum) {
+                for (int j = i; j < *pos; j++) {
+                    printf("Digite o valor a ser descontado: \n");
+                    scanf("%d", &valor);
+                    resultado = usuario[j].valor - valor;
+                    if (resultado > comum){
+                        usuario[j].valor = usuario[j].valor - valor;
+                        printf ("o valor na conta é: %d\n", usuario[j].valor);
+                    } else  {
+                        printf("Operação cancelada pois o usuario terá seu saldo acima do limite negativo.");
+                    }
+                } break;
+            } else if (usuario[i].tipo == 2 && usuario[i].valor > plus){
+                for (int j = i; j < *pos; j++) {
+                    printf("Digite o valor a ser descontado: \n");
+                    scanf("%d", &valor);
+                    resultado = usuario[j].valor - valor;
+                    if (resultado > plus){
+                        usuario[j].valor = usuario[j].valor - valor;
+                        printf ("o valor na conta é: %d\n", usuario[j].valor);
+                    } else {
+                        printf("Operação cancelada pois o usuario terá seu saldo acima do limite negativo.");
+                    }
+                }       
+            } break;
+        } else {
+            printf("CPF não econtrado\n");
+        }
+    }
 }
 
 R Deposito(dados usuario[], int *pos) {
