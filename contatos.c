@@ -87,6 +87,7 @@ R Listarclientes(dados usuario[], int *pos) {
 
 R Debito(dados usuario[], int *pos){
     char cpf[11];
+    int Senha;
     int i;
     int valor;
     int comum = -1000;
@@ -99,7 +100,7 @@ R Debito(dados usuario[], int *pos){
     for (i = 0; i < *pos; i++) {
         printf("Digite seu CPF: \n");
         scanf("%s", cpf);
-        if (strcmp(usuario[i].CPF, cpf) == 0) {
+        if (strcmp(usuario[i].CPF, cpf) == 0 && usuario[i].senha == Senha) {
             if (usuario[i].tipo == 1 && usuario[i].valor > comum) {
                 for (int j = i; j < *pos; j++) {
                     printf("Digite o valor a ser descontado: \n");
@@ -126,7 +127,7 @@ R Debito(dados usuario[], int *pos){
                 }       
             } break;
         } else {
-            printf("CPF não econtrado\n");
+            printf("CPF ou Senha incorretos! \n");
         }
     }
 }
