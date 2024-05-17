@@ -17,7 +17,7 @@ R Novocliente(dados usuario[], int *pos) {
     clearBuffer();
 
     printf("Entre com o tipo de conta, 1 - comum, 2 - plus: ");
-
+    scanf("%d", &usuario[*pos].tipo);
     clearBuffer();
 
     printf("Entre com o valor inicial: ");
@@ -87,7 +87,7 @@ R Listarclientes(dados usuario[], int *pos) {
 
 R Debito(dados usuario[], int *pos){
     char cpf[11];
-
+    int Senha;
     int i;
     int valor;
     int comum = -1000;
@@ -100,7 +100,9 @@ R Debito(dados usuario[], int *pos){
     for (i = 0; i < *pos; i++) {
         printf("Digite seu CPF: \n");
         scanf("%s", cpf);
-
+        printf("Digite sua Senha: \n");
+        scanf("%d", &Senha);
+        if (strcmp(usuario[i].CPF, cpf) == 0 && usuario[i].senha == Senha) {
             if (usuario[i].tipo == 1 && usuario[i].valor > comum) {
                 for (int j = i; j < *pos; j++) {
                     printf("Digite o valor a ser descontado: \n");
@@ -127,16 +129,16 @@ R Debito(dados usuario[], int *pos){
                 }       
             } break;
         } else {
-
+            printf("CPF ou Senha incorretos! \n");
         }
     }
 }
-
 R Deposito(dados usuario[], int *pos) {
     char CPF[12]; // Variável para armazenar o CPF da conta
     char senha[31]; // Variável para armazenar a senha da conta
     int valor; // Variável para armazenar o valor a ser depositado
     int encontrou_conta = 0;
+    int Senha;
 
     // Solicita o CPF da conta para autenticação
     printf("Entre com o seu CPF: ");
@@ -145,16 +147,16 @@ R Deposito(dados usuario[], int *pos) {
 
     // Solicita a senha da conta para autenticação
     printf("Entre com a sua senha: ");
-    scanf("%30s", senha);
+    scanf("%30d", &Senha);
     clearBuffer();
 
     // Verifica se a conta e a senha correspondem a alguma conta existente
     int i;
     for (i = 0; i < *pos; i++) {
         printf("Debug: Comparando CPF %s com %s\n", usuario[i].CPF, CPF);
-        printf("Debug: Comparando senha %s com %s\n", usuario[i].senha, senha);
+        printf("Debug: Comparando senha %ls com %d\n", &usuario[i].senha, Senha);
 
-        if (strcmp(usuario[i].CPF, CPF) == 0 && strcmp(usuario[i].senha, senha) == 0) {
+        if (strcmp(usuario[i].CPF, CPF) == 0 && usuario[i].senha == Senha) {
             encontrou_conta = 1;
             break; // Sai do loop se encontrar a conta e senha correspondentes
         }
