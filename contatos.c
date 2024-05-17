@@ -17,7 +17,7 @@ R Novocliente(dados usuario[], int *pos) {
     clearBuffer();
 
     printf("Entre com o tipo de conta, 1 - comum, 2 - plus: ");
-    scanf("%1s", usuario[*pos].tipo); // Tipo de conta deve ter um único caractere mais o terminador nulo
+
     clearBuffer();
 
     printf("Entre com o valor inicial: ");
@@ -25,12 +25,13 @@ R Novocliente(dados usuario[], int *pos) {
     clearBuffer();
 
     printf("Entre com a senha da conta: ");
-    scanf("%30s", usuario[*pos].senha);
+    scanf("%30d", &usuario[*pos].senha);
     clearBuffer();
 
     (*pos)++;
 
     return OK;
+
 }
 
 R Apagarcliente(dados usuario[], char *CPF, int *pos) {
@@ -48,9 +49,6 @@ R Apagarcliente(dados usuario[], char *CPF, int *pos) {
             for (int j = i; j < *pos - 1; j++) {
                 strcpy(usuario[j].nome, usuario[j + 1].nome);
                 strcpy(usuario[j].CPF, usuario[j + 1].CPF);
-                strcpy(usuario[j].tipo, usuario[j + 1].tipo);
-                usuario[j].valor = usuario[j + 1].valor;
-                strcpy(usuario[j].senha, usuario[j + 1].senha);
             }
             (*pos)--;
             printf("Conta removida com sucesso!\n");
@@ -67,7 +65,7 @@ R Apagarcliente(dados usuario[], char *CPF, int *pos) {
         printf("Pos: %d\t", i + 1);
         printf("Nome: %s\t", usuario[i].nome);
         printf("CPF: %s\t", usuario[i].CPF);
-        printf("tipo: %s\n", usuario[i].tipo);
+        printf("tipo: %d\n", usuario[i].tipo);
         printf("valor: %d\n", usuario[i].valor);
     }
 
@@ -89,6 +87,7 @@ R Listarclientes(dados usuario[], int *pos) {
 
 R Debito(dados usuario[], int *pos){
     char cpf[11];
+
     int i;
     int valor;
     int comum = -1000;
@@ -101,7 +100,7 @@ R Debito(dados usuario[], int *pos){
     for (i = 0; i < *pos; i++) {
         printf("Digite seu CPF: \n");
         scanf("%s", cpf);
-        if (strcmp(usuario[i].CPF, cpf) == 0) {
+
             if (usuario[i].tipo == 1 && usuario[i].valor > comum) {
                 for (int j = i; j < *pos; j++) {
                     printf("Digite o valor a ser descontado: \n");
@@ -128,7 +127,7 @@ R Debito(dados usuario[], int *pos){
                 }       
             } break;
         } else {
-            printf("CPF não econtrado\n");
+
         }
     }
 }
@@ -205,7 +204,7 @@ R Transferencia(dados usuario[], int *pos){
 void printDados(dados contatos, int pos) {
     printf("\nPosicao: %d\t", pos);
     printf("Nome: %s\tCPF: %s\t", contatos.nome, contatos.CPF);
-    printf("tipo de conta: %s\t", contatos.tipo);
+    printf("tipo de conta: %d\t", contatos.tipo);
     printf("dinheiro depositado: %d\n", contatos.valor);
 }
 
