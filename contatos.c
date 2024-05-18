@@ -309,7 +309,7 @@ R Transferencia(dados usuario[], int *pos) {
         printf("CPF ou senha incorretos!\n");
         return NaoEcontrado;
     }
->>>>>>> main
+
 }
 void printDados(dados contatos, int pos) {
     printf("\nPosicao: %d\t", pos);
