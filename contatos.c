@@ -87,52 +87,62 @@ R Listarclientes(dados usuario[], int *pos) {
 
 R Debito(dados usuario[], int *pos){
     char cpf[11];
-    int Senha;
-    int i;
-    int valor;
+    int Senha, i, j, valor, resultado;
     int comum = -1000;
     int plus = -5000;
-    int resultado;
+    int conta_comum = 0;
+    int conta_plus = 0;
+
     if (*pos <= 0) {
         printf("Não existem contatos na memoria\n");
     }
+    printf("Digite seu CPF: \n");
+    scanf("%s", cpf);
+    printf("Digite sua Senha: \n");
+    scanf("%d", &Senha);
 
     for (i = 0; i < *pos; i++) {
-        printf("Digite seu CPF: \n");
-        scanf("%s", cpf);
-        printf("Digite sua Senha: \n");
-        scanf("%d", &Senha);
         if (strcmp(usuario[i].CPF, cpf) == 0 && usuario[i].senha == Senha) {
             if (usuario[i].tipo == 1 && usuario[i].valor > comum) {
-                for (int j = i; j < *pos; j++) {
+                for (j = i; j < *pos; j++) {
                     printf("Digite o valor a ser descontado: \n");
                     scanf("%d", &valor);
                     resultado = usuario[j].valor - valor;
-                    if (resultado > comum){
+                    if (resultado > comum) {
+                        usuario[j].valor2 = usuario[j].valor;
+                        usuario[j].debito = valor;
                         usuario[j].valor = usuario[j].valor - valor;
-                        printf ("o valor na conta é: %d\n", usuario[j].valor);
-                    } else  {
-                        printf("Operação cancelada pois o usuario terá seu saldo acima do limite negativo.");
-                    }
-                } break;
-            } else if (usuario[i].tipo == 2 && usuario[i].valor > plus){
-                for (int j = i; j < *pos; j++) {
-                    printf("Digite o valor a ser descontado: \n");
-                    scanf("%d", &valor);
-                    resultado = usuario[j].valor - valor;
-                    if (resultado > plus){
-                        usuario[j].valor = usuario[j].valor - valor;
-                        printf ("o valor na conta é: %d\n", usuario[j].valor);
+                        printf("O valor na conta é: %d\n", usuario[j].valor);
+                        break;
                     } else {
-                        printf("Operação cancelada pois o usuario terá seu saldo acima do limite negativo.");
+                        printf("Operação cancelada pois o usuário terá seu saldo acima do limite negativo.\n");
                     }
-                }       
-            } break;
-        } else {
-            printf("CPF ou Senha incorretos! \n");
+                }
+            } else if (usuario[i].tipo == 2 && usuario[i].valor > plus) {
+                for (j = i; j < *pos; j++) {
+                    printf("Digite o valor a ser descontado: \n");
+                    scanf("%d", &valor);
+                    resultado = usuario[j].valor - valor;
+                    if (resultado > plus) {
+                        usuario[j].valor2 = usuario[j].valor;
+                        usuario[j].debito = valor;
+                        usuario[j].valor = usuario[j].valor - valor;
+                        printf("O valor na conta é: %d\n", usuario[j].valor);
+                        break;
+                    } else {
+                        printf("Operação cancelada pois o usuário terá seu saldo acima do limite negativo.\n");
+                    }
+                }
+            }
+            break;
         }
     }
+
+    if (i == *pos) {
+        printf("CPF ou Senha incorretos! \n");
+    }
 }
+
 R Deposito(dados usuario[], int *pos) {
     char CPF[12]; // Variável para armazenar o CPF da conta
     char senha[31]; // Variável para armazenar a senha da conta
@@ -184,21 +194,48 @@ R Deposito(dados usuario[], int *pos) {
 }
 
 R Extrato(dados usuario[], int *pos, int tamanho) {
-    FILE *f = fopen("extrato.bin", "rb");
-    if (f == NULL) {
-        printf("Erro ao abrir o arquivo de extrato.bin\n");
-        return ABRIR;
+    int criado, Senha, i;
+    char cpf[11];
+    if (*pos <= 0) {
+        printf("Não existem contatos na memoria\n");
     }
-    int i;
-    for (i = 0; i < tamanho && fread(&usuario[i], sizeof(dados), 1, f) == 1; i++);
-    *pos = i;
-    if (fclose(f) != 0) {
-        printf("Erro ao fechar o arquivo agenda.bin\n");
-        return FECHAR;
+
+
+    printf("Digite seu CPF: \n");
+    scanf("%s", cpf);
+    printf("Digite sua Senha: \n");
+    scanf("%d", &Senha);
+
+    for (i = 0; i < *pos; i++) {
+            if (strcmp(usuario[i].CPF, cpf) == 0 && usuario[i].senha == Senha) {
+                printf("Extratos dos clientes: \n");
+                printf("nome %s\n", usuario[i].nome);
+                printf("Valor Inicial: %d\n", usuario[i].valor2);
+                printf("Valor do débito: %d\n", usuario[i].debito);
+                printf("Valor na conta após o débito: %d\n", usuario[i].valor);
+                // printf("Transferencia de: %d, para: %s", usuario[i].inserir, usuario[i].inserir);
+                printf("\n");
+        }else {
+        printf("CPF ou Senha incorretos! \n");
     }
-    printf("Arquivo aberto com sucesso!");
-    return OK;
+    }
+    FILE *cliente;
+    cliente = fopen("Extratos.txt", "a");
+    if (cliente == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return 1;
+    }
+
+    fprintf(cliente, "Extratos dos clientes\n");
+    fprintf(cliente, "Nome: %s\n", usuario[i].nome);
+    fprintf(cliente, "Valor Inicial: %d\n", usuario[i].valor2);
+    fprintf(cliente, "Valor do débito: %d\n", usuario[i].debito);
+    fprintf(cliente, "Valor na conta após o débito: %d\n", usuario[i].valor);
+    fprintf(cliente, "------------------------------------\n");
+
+    fclose(cliente);
 }
+
 
 R Transferencia(dados usuario[], int *pos){
     printf("Tranferencia\n");

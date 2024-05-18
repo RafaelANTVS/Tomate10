@@ -6,6 +6,8 @@ typedef struct {
     int tipo;
     int valor;
     int senha;
+    int valor2;
+    int debito;
 
 }dados;
 
