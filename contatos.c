@@ -236,9 +236,80 @@ R Extrato(dados usuario[], int *pos, int tamanho) {
     fclose(cliente);
 }
 
+R Transferencia(dados usuario[], int *pos) {
+    char CPF[12]; // Variável para armazenar o CPF da conta do remetente
+    char CPF_alvo[12]; // Variável para armazenar o CPF da conta do destinatário
+    int senha; // Variável para armazenar a senha da conta do remetente
+    int valor; // Variável para armazenar o valor a ser transferido
+    int encontrou_conta_remetente = 0;
+    int encontrou_conta_alvo = 0;
 
-R Transferencia(dados usuario[], int *pos){
-    printf("Tranferencia\n");
+    // Solicita o CPF da conta do remetente para autenticação
+    printf("Entre com o seu CPF: ");
+    scanf("%11s", CPF);
+    clearBuffer();
+
+    // Solicita a senha da conta do remetente para autenticação
+    printf("Entre com a sua senha: ");
+    scanf("%d", &senha);
+    clearBuffer();
+
+    // Verifica se a conta do remetente e a senha correspondem a alguma conta existente
+    int i;
+    for (i = 0; i < *pos; i++) {
+        printf("Debug: Comparando CPF %s com %s\n", usuario[i].CPF, CPF);
+        printf("Debug: Comparando senha %d com %d\n", usuario[i].senha, senha);
+
+        if (strcmp(usuario[i].CPF, CPF) == 0 && usuario[i].senha == senha) {
+            encontrou_conta_remetente = 1;
+            break; // Sai do loop se encontrar a conta e senha correspondentes
+        }
+    }
+
+    if (encontrou_conta_remetente == 1) {
+        // Solicita o CPF da conta destinatária
+        printf("Entre com o CPF do destinatário: ");
+        scanf("%11s", CPF_alvo);
+        clearBuffer();
+
+        // Solicita o valor a ser transferido
+        printf("Entre com o valor da transferência: ");
+        scanf("%d", &valor);
+        clearBuffer();
+
+        // Verifica se a conta destinatária existe
+        int j;
+        for (j = 0; j < *pos; j++) {
+            printf("Debug: Comparando CPF %s com %s\n", usuario[j].CPF, CPF_alvo);
+
+            if (strcmp(usuario[j].CPF, CPF_alvo) == 0) {
+                encontrou_conta_alvo = 1;
+                break; // Sai do loop se encontrar a conta destinatária
+            }
+        }
+
+        if (encontrou_conta_alvo == 1) {
+            // Verifica se o remetente tem saldo suficiente para a transferência
+            if (usuario[i].valor >= valor) {
+                usuario[i].valor -= valor;
+                usuario[j].valor += valor;
+                printf("Transferência realizada com sucesso!\n");
+                printf("Novo saldo do remetente (%s): %d\n", usuario[i].nome, usuario[i].valor);
+                printf("Novo saldo do destinatário (%s): %d\n", usuario[j].nome, usuario[j].valor);
+                return OK;
+            } else {
+                printf("Saldo insuficiente para a transferência.\n");
+                return NaoEcontrado;
+            }
+        } else {
+            printf("Conta destinatária com CPF %s não encontrada.\n", CPF_alvo);
+            return NaoEcontrado;
+        }
+    } else {
+        printf("CPF ou senha incorretos!\n");
+        return NaoEcontrado;
+    }
+>>>>>>> main
 }
 void printDados(dados contatos, int pos) {
     printf("\nPosicao: %d\t", pos);
